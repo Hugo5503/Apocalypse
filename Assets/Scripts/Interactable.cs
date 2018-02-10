@@ -19,10 +19,6 @@ public class Interactable : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (transform.GetChild(0).gameObject.activeSelf)
-            {
-                DropObject();
-            }
             if (holdingObject == null)
                 tryInteract();
             else
@@ -47,14 +43,7 @@ public class Interactable : MonoBehaviour
                         GameObject returnValue = interactable.Interactable(holdingObject);
                         if (returnValue != null)
                         {
-                            if (hit.collider.gameObject.name.Contains("Crowbar"))
-                            {
-                                Destroy(hit.collider.gameObject);
-                                Crowbar();
-                            }
-
-                            else
-                                PickUp(returnValue);
+                            PickUp(returnValue);
                         }
                     }
                 }
@@ -72,19 +61,8 @@ public class Interactable : MonoBehaviour
 
     private void DropObject()
     {
-        if (transform.GetChild(0).gameObject.name.Contains("Crowbar"))
-        {
-            transform.GetChild(0).gameObject.SetActive(false);
-            Instantiate(crowbar, this.transform.position, new Quaternion());
-            return;
-        }
         holdingJoint.connectedBody = null;
         Physics.IgnoreCollision(this.GetComponentInParent<Collider>(), holdingObject.GetComponent<Collider>(), false);
         holdingObject = null;
-    }
-
-    private void Crowbar()
-    {
-        transform.GetChild(0).gameObject.SetActive(true);
     }
 }
