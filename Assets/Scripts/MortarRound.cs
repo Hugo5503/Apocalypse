@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MortarRound : MonoBehaviour, IDestroyable, IDamageable<float>
+public class MortarRound : MonoBehaviour, IDestroyable, IDamageable<int>
 {
 
     public float force = 40f;
@@ -94,7 +94,7 @@ public class MortarRound : MonoBehaviour, IDestroyable, IDamageable<float>
         Destroy(gameObject);
     }
 
-    public void Damage(float damageTaken)
+    public void Damage(int damageTaken)
     {
         if (damageTaken > 0)
             Explode();
