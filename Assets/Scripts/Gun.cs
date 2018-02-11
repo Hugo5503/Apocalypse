@@ -36,10 +36,11 @@ public class Gun : MonoBehaviour
         journeyLengthMag = Vector3.Distance(magLoadedPoint.transform.position, magInsertPoint.position);
 
         journeyLengthSlide = Vector3.Distance(gunSlideNor.transform.position, gunSlideFar.position);
+
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
@@ -52,12 +53,18 @@ public class Gun : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log("fire");
-            if (lerpingMag == false && lerpingSlideBack == false && lerpingSlideForward == false)
+            if (insertedMagazineData != null)
             {
-                Fire();
-                FireAnimation();
-                lerpingSlideBack = true;
+                if (insertedMagazineData.fire)
+                {
+                    Debug.Log("fire");
+                    if (lerpingMag == false && lerpingSlideBack == false && lerpingSlideForward == false)
+                    {
+                        Fire();
+                        FireAnimation();
+                        lerpingSlideBack = true;
+                    }
+                }
             }
         }
 

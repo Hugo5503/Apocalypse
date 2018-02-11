@@ -7,7 +7,6 @@ public class Interactable : MonoBehaviour
     public GameObject holdingObject;
     public FixedJoint holdingJoint;
     public GameObject holdPos;
-    public GameObject crowbar;
 
     // Use this for initialization
     void Start()
