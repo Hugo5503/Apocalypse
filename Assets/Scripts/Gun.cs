@@ -1,9 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Gun : MonoBehaviour
+public class Gun : MonoBehaviour, IInteractable
 {
+    public Transform gunPos;
+
     public GameObject magInserted;
     public Transform magInsertPoint;
     public Transform magLoadedPoint;
@@ -19,6 +22,8 @@ public class Gun : MonoBehaviour
     public float impactForce;
     public float minDamage;
     public float maxDamage;
+
+    private Transform oldGunPos;
 
     private bool lerpingMag = false;
     private bool lerpingSlideBack = false;
@@ -152,5 +157,21 @@ public class Gun : MonoBehaviour
             return false;
         }
         return true;
+    }
+
+    void IInteractable.Activate()
+    {
+        this.transform.position = gunPos.position;
+        this.transform.rotation = gunPos.rotation;
+        this.transform.SetParent(gunPos);
+        if (this.GetComponent<Rigidbody>() != null)
+        {
+            this.GetComponent<Rigidbody>().isKinematic = true;
+        }
+    }
+
+    void IInteractable.DeActivate()
+    {
+        throw new NotImplementedException();
     }
 }

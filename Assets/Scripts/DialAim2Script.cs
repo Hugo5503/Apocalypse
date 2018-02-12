@@ -3,11 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DialAim2Script : MonoBehaviour, IInteractable<GameObject>
+public class DialAim2Script : MonoBehaviour, IInteractable
 {
 
     public Transform Mortar;
-    public float rotSpeed = 0.3f;
+    public float rotSpeed;
 
     private bool rotating = false;
     private Vector3 mouseStartPos;
@@ -35,24 +35,25 @@ public class DialAim2Script : MonoBehaviour, IInteractable<GameObject>
             if (mouseStartPos.y - newMousePos.y < 0.02f)
             {
                 Mortar.Rotate(Vector3.up * rotSpeed);
-                transform.Rotate(Vector3.up * (rotSpeed * 24));
+                transform.Rotate(Vector3.up * (rotSpeed * 75));
             }
 
             if (mouseStartPos.y - newMousePos.y > -0.02f)
             {
                 Mortar.Rotate(Vector3.up * rotSpeed * -1);
-                transform.Rotate(Vector3.up * (rotSpeed * 24) * -1);
+                transform.Rotate(Vector3.up * (rotSpeed * 75) * -1);
             }
         }
     }
 
-    public GameObject Interactable(GameObject interactable)
+    public void Activate()
     {
         mouseStartPos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane));
-        if (interactable == null)
-        {
-            rotating = true;
-        }
-        return null;
+        rotating = true;
+    }
+
+    public void DeActivate()
+    {
+        rotating = false;
     }
 }

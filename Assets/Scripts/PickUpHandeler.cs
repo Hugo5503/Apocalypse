@@ -9,6 +9,7 @@ public class PickUpHandeler : MonoBehaviour
 
     public Transform leftHandPos;
     public Transform rightHandPos;
+    public Transform holdPos;
 
     private bool picking;
 
@@ -33,15 +34,15 @@ public class PickUpHandeler : MonoBehaviour
         }
 
         //UsingLeft
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && leftHand != null)
         {
-
+            UseHoldingObject(leftRight.left);
         }
 
         //Using right
-        if(Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1) && rightHand != null)
         {
-
+            UseHoldingObject(leftRight.right);
         }
 
         //PickingUpLeft
@@ -69,7 +70,7 @@ public class PickUpHandeler : MonoBehaviour
             {
                 foreach (MonoBehaviour script in scripts)
                 {
-                    if (script is IInteractable<GameObject>)
+                    if (script is IPickable)
                     {
                         if (lr == leftRight.left)
                         {
@@ -90,12 +91,20 @@ public class PickUpHandeler : MonoBehaviour
                         return;
                     }
 
+                    if(script is IInteractable)
+                    {
+                        IInteractable localScript = (IInteractable)script;
+                        localScript.Activate();
+                    }
+
+
+
                     //if(specialcaseScript)
                     //Execute special case
                 }
             }
+
             DropObject(lr);
-            Debug.Log("Nothing hit but close close");
         }
         else
         {
@@ -127,17 +136,51 @@ public class PickUpHandeler : MonoBehaviour
 
     private void DropObject(leftRight lr)
     {
-        if (lr == leftRight.left)
+        if (lr == leftRight.left && leftHand != null)
         {
             leftHand.GetComponent<Rigidbody>().isKinematic = false;
             leftHand.transform.parent = null;
             leftHand = null;
         }
-        if (lr == leftRight.right)
+        if (lr == leftRight.right && rightHand != null)
         {
             rightHand.GetComponent<Rigidbody>().isKinematic = false;
             rightHand.transform.parent = null;
             rightHand = null;
+        }
+    }
+
+    private void UseHoldingObject(leftRight lr)
+    {
+        if (lr == leftRight.left && leftHand != null)
+        {
+            leftHand.transform.position = holdPos.position;
+            leftHand.GetComponent<Rigidbody>().useGravity = false;
+            leftHand.GetComponent<Rigidbody>().isKinematic = false;
+        }
+        if (lr == leftRight.right && rightHand != null)
+        {
+            rightHand.transform.position = holdPos.position;
+            rightHand.GetComponent<Rigidbody>().useGravity = false;
+            rightHand.GetComponent<Rigidbody>().isKinematic = false;
+        }
+        StartCoroutine(retunToHand(lr));
+    }
+
+    IEnumerator retunToHand(leftRight lr)
+    {
+        yield return new WaitForSeconds(1f);
+        if (lr == leftRight.left && leftHand != null)
+        {
+            leftHand.GetComponent<Rigidbody>().useGravity = true;
+            leftHand.GetComponent<Rigidbody>().isKinematic = true;
+            leftHand.transform.position = leftHandPos.position;
+        }
+        if (lr == leftRight.right && rightHand != null)
+        {
+            leftHand.GetComponent<Rigidbody>().useGravity = true;
+            leftHand.GetComponent<Rigidbody>().isKinematic = true;
+            rightHand.transform.position = rightHandPos.position;
         }
     }
 }

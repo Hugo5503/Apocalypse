@@ -12,7 +12,13 @@ public interface IDestroyable
     void DestroyAble();
 }
 
-public interface IInteractable<T>
+public interface IInteractable
 {
-    GameObject Interactable(T gameObject);
+    void Activate();
+    void DeActivate();
+}
+
+public interface IPickable
+{
+    
 }

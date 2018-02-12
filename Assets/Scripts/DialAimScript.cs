@@ -3,11 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DialAimScript : MonoBehaviour, IInteractable<GameObject>
+public class DialAimScript : MonoBehaviour, IInteractable
 {
 
     public Transform tube;
-    public float rotSpeed = 0.3f;
+    public float rotSpeed;
 
     public float minAngle;
     public float maxAngle;
@@ -35,27 +35,32 @@ public class DialAimScript : MonoBehaviour, IInteractable<GameObject>
         {
             Vector3 newMousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane));
             //look if mouseinput changed if there is little to no movement do nothing else move left or right
-            if (mouseStartPos.y - newMousePos.y <  0.02f && (tube.rotation.eulerAngles.x >= minAngle))
+            if (mouseStartPos.y - newMousePos.y < 0.02f && (tube.rotation.eulerAngles.x >= minAngle))
             {
                 tube.Rotate(this.transform.up * rotSpeed);
-                transform.Rotate(Vector3.up * (rotSpeed * 24));
+                transform.Rotate(Vector3.up * (rotSpeed * 75));
             }
 
             if (mouseStartPos.y - newMousePos.y > -0.02f && (tube.rotation.eulerAngles.x <= maxAngle))
             {
                 tube.Rotate(this.transform.up * rotSpeed * -1);
-                transform.Rotate(Vector3.up * (rotSpeed * 24) * -1);
+                transform.Rotate(Vector3.up * (rotSpeed * 75) * -1);
             }
+        }
+        else
+        {
+            rotating = false;
         }
     }
 
-    public GameObject Interactable(GameObject interactable)
+    public void Activate()
     {
         mouseStartPos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane));
-        if (interactable == null)
-        {
-            rotating = true;
-        }
-        return null;
+        rotating = true;
+    }
+
+    public void DeActivate()
+    {
+        rotating = false;
     }
 }

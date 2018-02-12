@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PickableScript : MonoBehaviour, IInteractable<GameObject> {
+public class PickableScript : MonoBehaviour, IPickable {
 
     // Use this for initialization
     void Start () {
@@ -15,6 +15,7 @@ public class PickableScript : MonoBehaviour, IInteractable<GameObject> {
 		
 	}
 
+    /*
     public GameObject Interactable(GameObject pickUpObject)
     {
         GameObject objecttry = null;
@@ -24,4 +25,5 @@ public class PickableScript : MonoBehaviour, IInteractable<GameObject> {
         }
         return objecttry;
     }
+    */
 }

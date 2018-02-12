@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Crowbar : MonoBehaviour, IInteractable<GameObject>
+public class Crowbar : MonoBehaviour, IPickable
 {
 
     // Use this for initialization
@@ -18,6 +18,7 @@ public class Crowbar : MonoBehaviour, IInteractable<GameObject>
 
     }
 
+    /*
     public GameObject Interactable(GameObject pickUpObject)
     {
         GameObject objecttry = null;
@@ -27,4 +28,5 @@ public class Crowbar : MonoBehaviour, IInteractable<GameObject>
         }
         return objecttry;
     }
+    */
 }
